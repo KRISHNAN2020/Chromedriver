@@ -1,35 +1,58 @@
 import re
+import json
 
-# Function to extract timestamp from a string
-def extract_timestamp(json_content):
-    # Regex pattern to match timestamp up to milliseconds
-    pattern = r'"time":"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3})'
-    timestamps = re.findall(pattern, json_content)  # Find all matches
-    return timestamps
+def extract_timestamp(json_content: str) -> str:
+    """
+    Extract the timestamp from the 'raw' field in JSON content.
+    Returns the timestamp as a string in the format 'YYYY-MM-DD HH:MM:SS,sss [nn]'.
+    """
+    timestamp = None
+    
+    # Try parsing with JSON first
+    try:
+        data = json.loads(json_content)
+        if 'result' in data and 'raw' in data['result']:
+            raw_value = data['result']['raw']
+            # Extract timestamp using regex from the raw string
+            match = re.match(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} \[\d+\])', raw_value)
+            if match:
+                timestamp = match.group(1)
+    except json.JSONDecodeError:
+        print("JSON decoding failed, falling back to regex extraction...")
+        # Regex to extract timestamp directly from the raw field
+        pattern = r'"raw":"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} \[\d+\])'
+        match = re.search(pattern, json_content)
+        if match:
+            timestamp = match.group(1)
+    
+    return timestamp
 
-# Input and output file paths
-input_json_file = r"C:\Python\UnformattedText.json"  
-# Replace with your JSON file path"
-output_txt_file = r"C:\Python\Result.json'  # Output file for timestamps"
+def process_json_text(json_text: str):
+    """
+    Process JSON text, extract timestamp, and print to console.
+    """
+    # Split into individual JSON objects if multiple are present (newline-separated)
+    json_objects = json_text.strip().split('\n')
+    timestamps = []
 
-# Read the JSON file
-try:
-    with open(input_json_file, 'r', encoding='utf-8') as file:
-        json_content = file.read()
+    # Process each JSON object
+    for obj in json_objects:
+        if obj.strip():  # Skip empty lines
+            timestamp = extract_timestamp(obj)
+            if timestamp:
+                timestamps.append(timestamp)
 
-    # Extract all timestamps
-    timestamps = extract_timestamp(json_content)
-
-    # Write timestamps to a new text file
+    # Print timestamps to console
     if timestamps:
-        with open(output_txt_file, 'w', encoding='utf-8') as output_file:
-            for timestamp in timestamps:
-                output_file.write(timestamp + '\n')  # Write each timestamp on a new line
-        print(f"Extracted {len(timestamps)} timestamps and saved to '{output_txt_file}'")
+        print("Extracted timestamps:")
+        for i, ts in enumerate(timestamps, 1):
+            print(f"{i}. {ts}")
+        print(f"Total timestamps extracted: {len(timestamps)}")
     else:
-        print("No timestamps found in the JSON file.")
-        
-except FileNotFoundError:
-    print(f"Error: The file '{input_json_file}' was not found.")
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
+        print("No timestamps extracted.")
+
+# The JSON text provided
+json_text = ''' '''
+
+# Run the processing function
+process_json_text(json_text)
