@@ -21,7 +21,7 @@ def generate_recipient_payment_profile_id():
     parts[2] = ''.join([random.choice('0123456789abcdef') for _ in range(4)])
     return '-'.join(parts)
 
-# Generate 1000 XML messages and write to a file
+# Generate 1000 XML messages and write to a file without extra line spaces
 with open('output.xml', 'w') as file:
     for _ in range(1000):
         payment_id = generate_payment_id()
@@ -30,6 +30,6 @@ with open('output.xml', 'w') as file:
             payment_id=payment_id,
             recipient_payment_profile_id=recipient_payment_profile_id
         )
-        file.write(xml_message + '\n\n')  # Add a newline between messages for readability
+        file.write(xml_message + '\n')  # Single newline, no blank line
 
-print("1000 XML messages have been written to 'output.xml'")
+print("1000 XML messages have been written to 'output.xml' without blank lines")
