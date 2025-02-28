@@ -108,4 +108,26 @@ def create_payment_xml(output_filename="payment_notifications.xml"):
             recip_fi.text = "DDA"
             
             # Zelle score
-            zelle_score = ET.SubElement(notification, "zelle-risk
+            zelle_score = ET.SubElement(notification, "zelle-risk-score")
+            
+            # Convert to single-line string
+            message = ET.tostring(notification, encoding='unicode', method='xml')
+            message = message.replace('\n', '').replace('\r', '')
+            
+            # Write to file (single line per message)
+            f.write(message + '\n')
+            
+            # Print to console
+            print(f"Message {i+1}: {message}")
+            
+            if (i + 1) % 100 == 0:
+                print(f"Processed {i + 1} payment notifications")
+        
+        # Write closing tag
+        f.write('</PaymentNotifications>\n')
+        print(f"XML file successfully created as '{output_filename}' with 1000 payment notifications")
+    
+    print("Process completed!")
+
+if __name__ == "__main__":
+    create_payment_xml()
