@@ -1,82 +1,62 @@
+<dependencies>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.21.1</version>
+        </dependency>
 
-package org.example;
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-import org.junit.platform.suite.api.ConfigurationParameter;
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.Suite;
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
-
-@Suite
-@IncludeEngines("cucumber")
-@SelectPackages("org.example")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
-public class RunCucumberTest {
-}
-
-
-
-
-
-Feature: An example
-
-  Scenario: The example
-    Given an example scenario
-    When all step definitions are implemented
-    Then the scenario passes
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 
-  Scenario: Launch a webpage and verify its title
-    Given I launch the Chrome browser
-    When I navigate to "https://www.flipkart.com/"
-    Then the page title should be "Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books & More. Best Offers!"
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.21.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Selenium WebDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.29.0</version>
+        </dependency>
 
 
+        <!-- WebDriver Manager (to manage browser drivers automatically) -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.6.3</version>
+        </dependency>
 
-package org.example;
-
-import io.cucumber.java.en.*;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-public class StepDefinitions {
-    private WebDriver driver;
-    @Given("an example scenario")
-    public void anExampleScenario() {
-    }
-
-    @When("all step definitions are implemented")
-    public void allStepDefinitionsAreImplemented() {
-    }
-
-    @Then("the scenario passes")
-    public void theScenarioPasses() {
-    }
+        <!-- Optional: Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.12</version>
+        </dependency>
 
 
-    @Given("I launch the Chrome browser")
-    public void i_launch_the_chrome_browser() {
-        // Set up ChromeDriver using WebDriverManager
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize(); // Optional: Maximize the browser window
-    }
-
-    @When("I navigate to {string}")
-    public void i_navigate_to(String url) {
-        driver.get(url);
-
-    }
-
-    @Then("the page title should be {string}")
-    public void the_page_title_should_be(String expectedTitle) {
-        String actualTitle = driver.getTitle();
-        assertEquals(expectedTitle, actualTitle, "Page title does not match!");
-        driver.quit(); // Close the browser after the test
-    }
-
-}
+    </dependencies>
