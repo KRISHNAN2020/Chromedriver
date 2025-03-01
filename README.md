@@ -1,4 +1,11 @@
-import xml.etree.ElementTree as ET
+https://aagt-adminui-cert.onefiserv.net:9103/AdminUI/v1_0/Auth/Login![image](https://github.com/user-attachments/assets/4ea7d6d6-7eb5-4c8a-afe1-58c82736ce89)
+EC\F70TF39
+Krish@Cashedge123
+![Uploading image.png…]()
+
+
+
+[import xml.etree.ElementTree as ET
 import random
 import string
 import uuid
@@ -145,3 +152,4 @@ def create_payment_xml(output_filename="payment_notifications.xml"):
 
 if __name__ == "__main__":
     create_payment_xml()
+](https://aagt-adminui-cert.onefiserv.net:9103/AdminUI/v1_0/Auth/Login)![image](https://github.com/user-attachments/assets/c9f426da-2378-4649-b4f7-23978a0f2817)
